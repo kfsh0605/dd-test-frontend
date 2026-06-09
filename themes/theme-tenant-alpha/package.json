@@ -1,0 +1,22 @@
+{
+  "name": "theme-tenant-alpha",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "exports": {
+    ".": "./index.ts",
+    "./tokens.css": "./src/tokens.css"
+  },
+  "files": [
+    "src",
+    "index.ts"
+  ],
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  }
+}
