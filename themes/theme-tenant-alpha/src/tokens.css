@@ -1,56 +1,50 @@
-/**
- * theme-tenant-alpha / tokens.css
- *
- * Все значения оформлены как CSS Custom Properties (переменные).
- * Это позволяет shell-приложению переключать тему без единой строки JS —
- * достаточно подключить этот файл и переменные переопределят fallback-значения.
- *
- * Паттерн: Design Tokens → CSS Variables → компоненты используют var(--token)
- * Shell никогда не импортирует этот файл напрямую из кода —
- * только через ThemeLoader по brandId (theme boundary).
- */
+/* ============================================================
+   theme-tenant-alpha - Design Tokens
+   All values are CSS Custom Properties.
+   Shell loads this file via ThemeLoader based on brandId.
+   ============================================================ */
 
 :root {
-  /* ─── Brand Colors ─────────────────────────────────────────────── */
-  --color-brand-primary: #6c47ff;       /* основной акцент — фиолетовый */
-  --color-brand-primary-hover: #5535e0; /* hover состояние кнопок */
-  --color-brand-primary-active: #4428c7;/* active / pressed состояние */
-  --color-brand-secondary: #ff6b35;     /* вторичный акцент — оранжевый */
+  /* Brand Colors */
+  --color-brand-primary: #6c47ff;
+  --color-brand-primary-hover: #5535e0;
+  --color-brand-primary-active: #4428c7;
+  --color-brand-secondary: #ff6b35;
 
-  /* ─── Background ───────────────────────────────────────────────── */
-  --color-bg-base: #0f0e17;             /* основной фон страницы */
-  --color-bg-surface: #1a1928;          /* фон карточек, панелей */
-  --color-bg-elevated: #242338;         /* фон модалей, дропдаунов */
-  --color-bg-input: #2a2940;            /* фон инпутов */
+  /* Background */
+  --color-bg-base: #0f0e17;
+  --color-bg-surface: #1a1928;
+  --color-bg-elevated: #242338;
+  --color-bg-input: #2a2940;
 
-  /* ─── Text ─────────────────────────────────────────────────────── */
-  --color-text-primary: #fffffe;        /* основной текст */
-  --color-text-secondary: #a7a9be;      /* вторичный текст, плейсхолдеры */
-  --color-text-muted: #6b6d8a;          /* отключённые элементы */
-  --color-text-inverse: #0f0e17;        /* текст на светлом фоне */
+  /* Text */
+  --color-text-primary: #fffffe;
+  --color-text-secondary: #a7a9be;
+  --color-text-muted: #6b6d8a;
+  --color-text-inverse: #0f0e17;
 
-  /* ─── Border ───────────────────────────────────────────────────── */
-  --color-border-default: #2e2d45;      /* обычные границы */
-  --color-border-focus: #6c47ff;        /* focus ring — совпадает с primary */
-  --color-border-error: #ff4d4d;        /* границы при ошибке */
+  /* Border */
+  --color-border-default: #2e2d45;
+  --color-border-focus: #6c47ff;
+  --color-border-error: #ff4d4d;
 
-  /* ─── Semantic / Status ────────────────────────────────────────── */
+  /* Status */
   --color-success: #2cb67d;
   --color-error: #ff4d4d;
   --color-warning: #ffb800;
   --color-info: #3da9fc;
 
-  /* ─── Typography ───────────────────────────────────────────────── */
+  /* Typography */
   --font-family-base: 'Inter', system-ui, -apple-system, sans-serif;
   --font-family-display: 'Inter', system-ui, sans-serif;
 
-  --font-size-xs: 0.75rem;    /* 12px */
-  --font-size-sm: 0.875rem;   /* 14px */
-  --font-size-md: 1rem;       /* 16px */
-  --font-size-lg: 1.125rem;   /* 18px */
-  --font-size-xl: 1.25rem;    /* 20px */
-  --font-size-2xl: 1.5rem;    /* 24px */
-  --font-size-3xl: 1.875rem;  /* 30px */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
 
   --font-weight-regular: 400;
   --font-weight-medium: 500;
@@ -61,36 +55,36 @@
   --line-height-normal: 1.5;
   --line-height-relaxed: 1.75;
 
-  /* ─── Spacing ──────────────────────────────────────────────────── */
-  --spacing-1: 0.25rem;   /* 4px */
-  --spacing-2: 0.5rem;    /* 8px */
-  --spacing-3: 0.75rem;   /* 12px */
-  --spacing-4: 1rem;      /* 16px */
-  --spacing-5: 1.25rem;   /* 20px */
-  --spacing-6: 1.5rem;    /* 24px */
-  --spacing-8: 2rem;      /* 32px */
-  --spacing-10: 2.5rem;   /* 40px */
-  --spacing-12: 3rem;     /* 48px */
+  /* Spacing */
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-5: 1.25rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
+  --spacing-10: 2.5rem;
+  --spacing-12: 3rem;
 
-  /* ─── Border Radius ────────────────────────────────────────────── */
-  --radius-sm: 0.25rem;   /* 4px */
-  --radius-md: 0.5rem;    /* 8px */
-  --radius-lg: 0.75rem;   /* 12px */
-  --radius-xl: 1rem;      /* 16px */
-  --radius-full: 9999px;  /* pill / круглые кнопки */
+  /* Border Radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-full: 9999px;
 
-  /* ─── Shadows ──────────────────────────────────────────────────── */
+  /* Shadows */
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.6);
-  --shadow-brand: 0 4px 20px rgba(108, 71, 255, 0.35); /* свечение бренда */
+  --shadow-brand: 0 4px 20px rgba(108, 71, 255, 0.35);
 
-  /* ─── Transitions ──────────────────────────────────────────────── */
+  /* Transitions */
   --transition-fast: 150ms ease;
   --transition-base: 250ms ease;
   --transition-slow: 400ms ease;
 
-  /* ─── Z-index layers ───────────────────────────────────────────── */
+  /* Z-index */
   --z-base: 0;
   --z-dropdown: 100;
   --z-sticky: 200;
