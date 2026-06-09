@@ -13,12 +13,27 @@ export const metadata: Metadata = {
   description: 'Multi-tenant player shell application',
 };
 
+// brandId is hardcoded here for SSR - in production it would come from
+// cookies/subdomain/request headers resolved server-side
+const BRAND_ID = 'alpha';
+
+const THEME_MAP: Record<string, string> = {
+  alpha: '/themes/theme-tenant-alpha.css',
+};
+
+const themePath = THEME_MAP[BRAND_ID] ?? '/themes/fallback.css';
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        {/* Preload theme CSS synchronously to prevent FOUC */}
+        <link rel="stylesheet" href={themePath} />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <TenantProvider initialConfig={{ brandId: 'alpha', locale: 'en', currency: 'USD' }}>
+        <TenantProvider initialConfig={{ brandId: BRAND_ID, locale: 'en', currency: 'USD' }}>
           <QueryProvider>
+            {/* ThemeLoader handles dynamic theme switching on brandId change */}
             <ThemeLoader />
             {children}
           </QueryProvider>

@@ -17,15 +17,14 @@ export interface IdentityApi {
   logout(): Promise<void>;
 }
 
-// Simulates network delay for realistic mock behavior
 const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
+// Test credentials: any email + password "wrongpass" triggers auth error
 export const identityApi: IdentityApi = {
   async login({ email, password }) {
     await delay(800);
 
-    // Simulate invalid credentials error
-    if (password === 'wrong') {
+    if (password === 'wrongpass') {
       throw new Error('Invalid email or password');
     }
 
