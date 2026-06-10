@@ -10,11 +10,9 @@ import Link from 'next/link';
 
 const depositSchema = z.object({
   amount: z
-    .string()
-    .min(1, 'Amount is required')
-    .refine((val) => !isNaN(Number(val)), 'Must be a number')
-    .refine((val) => Number(val) > 0, 'Amount must be greater than 0')
-    .refine((val) => Number(val) <= 10000, 'Maximum deposit is $10,000'),
+    .number({ error: 'Must be a number' })
+    .positive('Amount must be greater than 0')
+    .max(10000, 'Maximum deposit is $10,000'),
 });
 
 type DepositFormData = z.infer<typeof depositSchema>;
@@ -66,7 +64,7 @@ export default function BillingPage() {
   });
 
   const onDeposit = (data: DepositFormData) => {
-    depositMutation.mutate(Number(data.amount), { onSuccess: reset });
+    depositMutation.mutate(data.amount, { onSuccess: () => reset() });
   };
 
   return (
@@ -120,7 +118,7 @@ export default function BillingPage() {
                   id="amount"
                   type="number"
                   placeholder="0.00"
-                  {...register('amount')}
+                  {...register('amount', { valueAsNumber: true })}
                   className="w-full px-4 py-3 rounded-lg text-base outline-none box-border"
                   style={{
                     backgroundColor: 'var(--color-bg-input)',
