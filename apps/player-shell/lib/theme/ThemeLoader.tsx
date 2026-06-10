@@ -2,13 +2,8 @@
 
 import { useEffect } from 'react';
 import { useTenant } from '@/context/TenantContext';
+import { THEME_MAP, FALLBACK_THEME } from './themeMap';
 
-// Maps brandId to its CSS token file path
-const THEME_MAP: Record<string, string> = {
-  alpha: '/themes/theme-tenant-alpha.css',
-};
-
-const FALLBACK_THEME = '/themes/fallback.css';
 const LINK_ID = 'tenant-theme-stylesheet';
 
 export function ThemeLoader() {
