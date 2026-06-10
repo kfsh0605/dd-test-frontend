@@ -19,7 +19,7 @@ type DepositFormData = z.infer<typeof depositSchema>;
 
 function BalanceSkeleton() {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2" aria-label="Loading balance">
       <div className="h-9 w-40 rounded-lg animate-pulse" style={{ backgroundColor: 'var(--color-bg-elevated)' }} />
       <div className="h-4 w-56 rounded-lg animate-pulse" style={{ backgroundColor: 'var(--color-bg-elevated)' }} />
     </div>
@@ -28,7 +28,7 @@ function BalanceSkeleton() {
 
 function TransactionsSkeleton() {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2" aria-label="Loading transactions">
       {[1, 2, 3].map((i) => (
         <div key={i} className="h-14 rounded-lg animate-pulse" style={{ backgroundColor: 'var(--color-bg-elevated)' }} />
       ))}
@@ -48,7 +48,7 @@ function ErrorState({ message, onRetry }: { message: string; onRetry: () => void
 function EmptyState() {
   return (
     <div className="text-center py-10">
-      <p className="text-3xl mb-4">💳</p>
+      <p className="text-3xl mb-4" aria-hidden="true">💳</p>
       <p className="text-lg mb-2" style={{ color: 'var(--color-text-secondary)' }}>No transactions yet</p>
       <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>Make your first deposit to get started</p>
     </div>
@@ -68,11 +68,11 @@ export default function BillingPage() {
   };
 
   return (
-    <main className="min-h-screen p-8" style={{ backgroundColor: 'var(--color-bg-base)' }}>
+    <main id="main-content" className="min-h-screen p-8" style={{ backgroundColor: 'var(--color-bg-base)' }}>
       <div className="max-w-2xl mx-auto">
 
         <div className="flex items-center gap-4 mb-8">
-          <Link href="/" className="text-sm no-underline" style={{ color: 'var(--color-text-muted)' }}>
+          <Link href="/" aria-label="Back to home" className="text-sm no-underline" style={{ color: 'var(--color-text-muted)' }}>
             &larr; Home
           </Link>
           <h1 className="text-2xl font-bold" style={{ color: 'var(--color-text-primary)' }}>
@@ -108,7 +108,7 @@ export default function BillingPage() {
               {depositMutation.error instanceof Error ? depositMutation.error.message : 'Deposit failed'}
             </div>
           )}
-          <form onSubmit={handleSubmit(onDeposit)} noValidate>
+          <form onSubmit={handleSubmit(onDeposit)} noValidate aria-label="Deposit funds form">
             <div className="flex gap-3 items-start">
               <div className="flex-1">
                 <label htmlFor="amount" className="block text-sm mb-2" style={{ color: 'var(--color-text-secondary)' }}>
@@ -118,6 +118,8 @@ export default function BillingPage() {
                   id="amount"
                   type="number"
                   placeholder="0.00"
+                  aria-invalid={!!errors.amount}
+                  aria-describedby={errors.amount ? 'amount-error' : undefined}
                   {...register('amount', { valueAsNumber: true })}
                   className="w-full px-4 py-3 rounded-lg text-base outline-none box-border"
                   style={{
@@ -126,7 +128,7 @@ export default function BillingPage() {
                     color: 'var(--color-text-primary)',
                   }}
                 />
-                <p role="alert" className="text-xs mt-1 min-h-4" style={{ color: 'var(--color-error)' }}>
+                <p id="amount-error" role="alert" className="text-xs mt-1 min-h-4" style={{ color: 'var(--color-error)' }}>
                   {errors.amount?.message ?? ''}
                 </p>
               </div>
@@ -143,9 +145,9 @@ export default function BillingPage() {
             {transactionsQuery.isError && <ErrorState message="Failed to load transactions" onRetry={() => transactionsQuery.refetch()} />}
             {transactionsQuery.data && transactionsQuery.data.length === 0 && <EmptyState />}
             {transactionsQuery.data && transactionsQuery.data.length > 0 && (
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2" role="list" aria-label="Transaction history">
                 {transactionsQuery.data.map((tx) => (
-                  <div key={tx.id} className="flex justify-between items-center px-4 py-3 rounded-lg" style={{ backgroundColor: 'var(--color-bg-elevated)' }}>
+                  <div key={tx.id} role="listitem" className="flex justify-between items-center px-4 py-3 rounded-lg" style={{ backgroundColor: 'var(--color-bg-elevated)' }}>
                     <div>
                       <p className="text-sm font-medium capitalize" style={{ color: 'var(--color-text-primary)' }}>{tx.type}</p>
                       <p className="text-xs" style={{ color: 'var(--color-text-muted)' }}>{new Date(tx.createdAt).toLocaleDateString()}</p>

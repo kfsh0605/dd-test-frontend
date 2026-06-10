@@ -35,11 +35,11 @@ export default function LoginPage() {
 
   return (
     <main
+      id="main-content"
       className="min-h-screen flex items-center justify-center p-4"
       style={{ backgroundColor: 'var(--color-bg-base)' }}
     >
       <div className="w-full max-w-md">
-
         <h1 className="text-2xl font-bold text-center mb-2" style={{ color: 'var(--color-text-primary)' }}>
           Welcome back
         </h1>
@@ -61,14 +61,9 @@ export default function LoginPage() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit(onSubmit)} noValidate>
-
+          <form onSubmit={handleSubmit(onSubmit)} noValidate aria-label="Sign in form">
             <div className="mb-5">
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium mb-2"
-                style={{ color: 'var(--color-text-secondary)' }}
-              >
+              <label htmlFor="email" className="block text-sm font-medium mb-2" style={{ color: 'var(--color-text-secondary)' }}>
                 Email
               </label>
               <input
@@ -76,6 +71,8 @@ export default function LoginPage() {
                 type="email"
                 autoComplete="email"
                 placeholder="you@example.com"
+                aria-invalid={!!errors.email}
+                aria-describedby={errors.email ? 'email-error' : undefined}
                 {...register('email')}
                 className="w-full px-4 py-3 rounded-lg text-base outline-none box-border"
                 style={{
@@ -85,18 +82,14 @@ export default function LoginPage() {
                 }}
               />
               {errors.email && (
-                <p role="alert" className="text-xs mt-1" style={{ color: 'var(--color-error)' }}>
+                <p id="email-error" role="alert" className="text-xs mt-1" style={{ color: 'var(--color-error)' }}>
                   {errors.email.message}
                 </p>
               )}
             </div>
 
             <div className="mb-6">
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium mb-2"
-                style={{ color: 'var(--color-text-secondary)' }}
-              >
+              <label htmlFor="password" className="block text-sm font-medium mb-2" style={{ color: 'var(--color-text-secondary)' }}>
                 Password
               </label>
               <input
@@ -104,6 +97,8 @@ export default function LoginPage() {
                 type="password"
                 autoComplete="current-password"
                 placeholder="Min. 8 characters"
+                aria-invalid={!!errors.password}
+                aria-describedby={errors.password ? 'password-error' : undefined}
                 {...register('password')}
                 className="w-full px-4 py-3 rounded-lg text-base outline-none box-border"
                 style={{
@@ -113,7 +108,7 @@ export default function LoginPage() {
                 }}
               />
               {errors.password && (
-                <p role="alert" className="text-xs mt-1" style={{ color: 'var(--color-error)' }}>
+                <p id="password-error" role="alert" className="text-xs mt-1" style={{ color: 'var(--color-error)' }}>
                   {errors.password.message}
                 </p>
               )}
@@ -122,7 +117,6 @@ export default function LoginPage() {
             <BrandButton type="submit" fullWidth isLoading={isSubmitting}>
               {isSubmitting ? 'Signing in...' : 'Sign in'}
             </BrandButton>
-
           </form>
         </div>
       </div>

@@ -3,7 +3,7 @@ import { TenantInfo } from '@/components/ui/TenantInfo';
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen p-8" style={{ backgroundColor: 'var(--color-bg-base)' }}>
+    <main id="main-content" className="min-h-screen p-8" style={{ backgroundColor: 'var(--color-bg-base)' }}>
       <div className="max-w-3xl mx-auto">
 
         <header className="mb-10">
@@ -20,9 +20,10 @@ export default function HomePage() {
 
         <TenantInfo />
 
-        <nav className="flex gap-4 mt-8">
+        <nav aria-label="Main navigation" className="flex gap-4 mt-8">
           <Link
             href="/auth/login"
+            aria-label="Go to login page"
             className="px-6 py-3 rounded-lg font-semibold text-base no-underline"
             style={{ backgroundColor: 'var(--color-brand-primary)', color: 'var(--color-text-primary)' }}
           >
@@ -30,6 +31,7 @@ export default function HomePage() {
           </Link>
           <Link
             href="/account/billing"
+            aria-label="Go to billing page"
             className="px-6 py-3 rounded-lg font-semibold text-base no-underline border"
             style={{ color: 'var(--color-brand-primary)', borderColor: 'var(--color-brand-primary)', backgroundColor: 'transparent' }}
           >

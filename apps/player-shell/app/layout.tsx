@@ -4,6 +4,7 @@ import './globals.css';
 import { TenantProvider } from '@/context/TenantContext';
 import { QueryProvider } from '@/lib/QueryProvider';
 import { ThemeLoader } from '@/lib/theme/ThemeLoader';
+import { SkipToContent } from '@/components/ui/SkipToContent';
 import { THEME_MAP, FALLBACK_THEME } from '@/lib/theme/themeMap';
 
 const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] });
@@ -24,6 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="stylesheet" href={themePath} />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
+        <SkipToContent />
         <TenantProvider initialConfig={{ brandId: BRAND_ID, locale: 'en', currency: 'USD' }}>
           <QueryProvider>
             <ThemeLoader />
