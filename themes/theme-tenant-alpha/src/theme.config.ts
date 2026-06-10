@@ -6,8 +6,6 @@ export interface ThemeConfig {
   supportedCurrencies: string[];
   brand: {
     logoText: string;
-    primaryColor: string;
-    backgroundColor: string;
   };
 }
 
@@ -19,8 +17,6 @@ const themeConfig: ThemeConfig = {
   supportedCurrencies: ['USD', 'EUR', 'BTC', 'ETH'],
   brand: {
     logoText: 'ALPHA',
-    primaryColor: '#6c47ff',
-    backgroundColor: '#0f0e17',
   },
 };
 
