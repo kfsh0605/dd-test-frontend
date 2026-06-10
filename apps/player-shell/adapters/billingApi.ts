@@ -1,4 +1,4 @@
-import { mockBalance, mockTransactions } from '@/mocks/billingMocks';
+import { mockBalance, mockTransactions, updateMockBalance } from '@/mocks/billingMocks';
 
 export interface BillingBalance {
   amount: number;
@@ -43,5 +43,6 @@ export const billingApi: BillingApi = {
     await delay(1000);
     if (amount <= 0) throw new Error('Amount must be greater than 0');
     if (amount > 10000) throw new Error('Maximum deposit amount is $10,000');
+    updateMockBalance(amount);
   },
 };

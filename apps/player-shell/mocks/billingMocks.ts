@@ -1,10 +1,19 @@
 import type { BillingBalance, BillingTransaction } from '@/adapters/billingApi';
 
-export const mockBalance: BillingBalance = {
+// Mutable - updated by deposit mock to simulate real API behavior
+export let mockBalance: BillingBalance = {
   amount: 1250.0,
   currency: 'USD',
   lastUpdated: new Date().toISOString(),
 };
+
+export function updateMockBalance(amount: number) {
+  mockBalance = {
+    ...mockBalance,
+    amount: mockBalance.amount + amount,
+    lastUpdated: new Date().toISOString(),
+  };
+}
 
 export const mockTransactions: BillingTransaction[] = [
   { id: 'tx-1', type: 'deposit', amount: 500, currency: 'USD', status: 'completed', createdAt: '2025-01-10T10:00:00Z' },
