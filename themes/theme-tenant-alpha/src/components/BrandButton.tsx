@@ -20,7 +20,7 @@ export const BrandButton = forwardRef<HTMLButtonElement, BrandButtonProps>(
       justifyContent: 'center',
       gap: 'var(--spacing-2)',
       fontFamily: 'var(--font-family-base)',
-      fontWeight: 'var(--font-weight-semibold)' as never,
+      fontWeight: 'var(--font-weight-semibold)' as React.CSSProperties['fontWeight'],
       lineHeight: 'var(--line-height-tight)',
       borderRadius: 'var(--radius-md)',
       border: '1px solid transparent',

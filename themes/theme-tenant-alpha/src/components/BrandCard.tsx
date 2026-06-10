@@ -41,7 +41,7 @@ export const BrandCard = forwardRef<HTMLDivElement, BrandCardProps>(
       padding: 'var(--spacing-4) var(--spacing-6)',
       borderBottom: '1px solid var(--color-border-default)',
       fontFamily: 'var(--font-family-base)',
-      fontWeight: 'var(--font-weight-semibold)' as never,
+      fontWeight: 'var(--font-weight-semibold)' as React.CSSProperties['fontWeight'],
       fontSize: 'var(--font-size-md)',
       color: 'var(--color-text-primary)',
     };
