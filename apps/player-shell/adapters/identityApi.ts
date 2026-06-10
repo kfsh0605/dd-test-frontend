@@ -1,3 +1,5 @@
+import { mockLoginResponse } from '@/mocks/identityMocks';
+
 export interface LoginRequest {
   email: string;
   password: string;
@@ -28,14 +30,7 @@ export const identityApi: IdentityApi = {
       throw new Error('Invalid email or password');
     }
 
-    return {
-      token: 'mock-jwt-token-xyz',
-      user: {
-        id: 'user-1',
-        email,
-        name: 'Alex Player',
-      },
-    };
+    return { ...mockLoginResponse, user: { ...mockLoginResponse.user, email } };
   },
 
   async logout() {
