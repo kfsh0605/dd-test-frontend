@@ -8,24 +8,18 @@ import { useRouter } from 'next/navigation';
 import { identityApi } from '@/adapters/identityApi';
 import { BrandButton } from 'theme-tenant-alpha';
 
-// Zod schema - single source of truth for validation rules and TypeScript types
 const loginSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email format'),
   password: z.string().min(8, 'Password must be at least 8 characters'),
 });
 
-// Type is derived from schema - no manual duplication
 type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
   const router = useRouter();
   const [serverError, setServerError] = useState<string | null>(null);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<LoginFormData>({
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
   });
 
@@ -40,29 +34,41 @@ export default function LoginPage() {
   };
 
   return (
-    <main style={{ minHeight: '100vh', backgroundColor: 'var(--color-bg-base)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 'var(--spacing-4)' }}>
-      <div style={{ width: '100%', maxWidth: '420px' }}>
+    <main
+      className="min-h-screen flex items-center justify-center p-4"
+      style={{ backgroundColor: 'var(--color-bg-base)' }}
+    >
+      <div className="w-full max-w-md">
 
-        <h1 style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-text-primary)', marginBottom: 'var(--spacing-2)', textAlign: 'center' }}>
+        <h1 className="text-2xl font-bold text-center mb-2" style={{ color: 'var(--color-text-primary)' }}>
           Welcome back
         </h1>
-        <p style={{ color: 'var(--color-text-secondary)', textAlign: 'center', marginBottom: 'var(--spacing-8)' }}>
+        <p className="text-center mb-8" style={{ color: 'var(--color-text-secondary)' }}>
           Sign in to your account
         </p>
 
-        <div style={{ backgroundColor: 'var(--color-bg-surface)', border: '1px solid var(--color-border-default)', borderRadius: 'var(--radius-lg)', padding: 'var(--spacing-8)' }}>
-
-          {/* Server-level error (wrong credentials etc) */}
+        <div
+          className="rounded-xl p-8 border"
+          style={{ backgroundColor: 'var(--color-bg-surface)', borderColor: 'var(--color-border-default)' }}
+        >
           {serverError && (
-            <div role="alert" style={{ backgroundColor: 'rgba(255,77,77,0.1)', border: '1px solid var(--color-error)', borderRadius: 'var(--radius-md)', padding: 'var(--spacing-3) var(--spacing-4)', marginBottom: 'var(--spacing-6)', color: 'var(--color-error)', fontSize: 'var(--font-size-sm)' }}>
+            <div
+              role="alert"
+              className="rounded-lg px-4 py-3 mb-6 text-sm border"
+              style={{ backgroundColor: 'rgba(255,77,77,0.1)', borderColor: 'var(--color-error)', color: 'var(--color-error)' }}
+            >
               {serverError}
             </div>
           )}
 
           <form onSubmit={handleSubmit(onSubmit)} noValidate>
 
-            <div style={{ marginBottom: 'var(--spacing-5)' }}>
-              <label htmlFor="email" style={{ display: 'block', fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-text-secondary)', marginBottom: 'var(--spacing-2)' }}>
+            <div className="mb-5">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium mb-2"
+                style={{ color: 'var(--color-text-secondary)' }}
+              >
                 Email
               </label>
               <input
@@ -71,27 +77,26 @@ export default function LoginPage() {
                 autoComplete="email"
                 placeholder="you@example.com"
                 {...register('email')}
+                className="w-full px-4 py-3 rounded-lg text-base outline-none box-border"
                 style={{
-                  width: '100%',
-                  padding: 'var(--spacing-3) var(--spacing-4)',
                   backgroundColor: 'var(--color-bg-input)',
                   border: `1px solid ${errors.email ? 'var(--color-border-error)' : 'var(--color-border-default)'}`,
-                  borderRadius: 'var(--radius-md)',
                   color: 'var(--color-text-primary)',
-                  fontSize: 'var(--font-size-md)',
-                  outline: 'none',
-                  boxSizing: 'border-box',
                 }}
               />
               {errors.email && (
-                <p role="alert" style={{ color: 'var(--color-error)', fontSize: 'var(--font-size-xs)', marginTop: 'var(--spacing-1)' }}>
+                <p role="alert" className="text-xs mt-1" style={{ color: 'var(--color-error)' }}>
                   {errors.email.message}
                 </p>
               )}
             </div>
 
-            <div style={{ marginBottom: 'var(--spacing-6)' }}>
-              <label htmlFor="password" style={{ display: 'block', fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-text-secondary)', marginBottom: 'var(--spacing-2)' }}>
+            <div className="mb-6">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium mb-2"
+                style={{ color: 'var(--color-text-secondary)' }}
+              >
                 Password
               </label>
               <input
@@ -100,20 +105,15 @@ export default function LoginPage() {
                 autoComplete="current-password"
                 placeholder="Min. 8 characters"
                 {...register('password')}
+                className="w-full px-4 py-3 rounded-lg text-base outline-none box-border"
                 style={{
-                  width: '100%',
-                  padding: 'var(--spacing-3) var(--spacing-4)',
                   backgroundColor: 'var(--color-bg-input)',
                   border: `1px solid ${errors.password ? 'var(--color-border-error)' : 'var(--color-border-default)'}`,
-                  borderRadius: 'var(--radius-md)',
                   color: 'var(--color-text-primary)',
-                  fontSize: 'var(--font-size-md)',
-                  outline: 'none',
-                  boxSizing: 'border-box',
                 }}
               />
               {errors.password && (
-                <p role="alert" style={{ color: 'var(--color-error)', fontSize: 'var(--font-size-xs)', marginTop: 'var(--spacing-1)' }}>
+                <p role="alert" className="text-xs mt-1" style={{ color: 'var(--color-error)' }}>
                   {errors.password.message}
                 </p>
               )}

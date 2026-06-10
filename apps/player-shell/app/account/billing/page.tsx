@@ -20,21 +20,30 @@ const depositSchema = z.object({
 
 type DepositFormData = z.infer<typeof depositSchema>;
 
-// Skeleton dimensions match real content exactly to prevent CLS
 function BalanceSkeleton() {
   return (
-    <div>
-      <div style={{ height: '2.25rem', width: '10rem', backgroundColor: 'var(--color-bg-elevated)', borderRadius: 'var(--radius-md)', marginBottom: 'var(--spacing-2)', animation: 'skeleton-pulse 1.5s ease-in-out infinite' }} />
-      <div style={{ height: '1rem', width: '14rem', backgroundColor: 'var(--color-bg-elevated)', borderRadius: 'var(--radius-md)', animation: 'skeleton-pulse 1.5s ease-in-out infinite' }} />
+    <div className="flex flex-col gap-2">
+      <div
+        className="h-9 w-40 rounded-lg animate-pulse"
+        style={{ backgroundColor: 'var(--color-bg-elevated)' }}
+      />
+      <div
+        className="h-4 w-56 rounded-lg animate-pulse"
+        style={{ backgroundColor: 'var(--color-bg-elevated)' }}
+      />
     </div>
   );
 }
 
 function TransactionsSkeleton() {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-2)' }}>
+    <div className="flex flex-col gap-2">
       {[1, 2, 3].map((i) => (
-        <div key={i} style={{ height: '3.5rem', backgroundColor: 'var(--color-bg-elevated)', borderRadius: 'var(--radius-md)', animation: 'skeleton-pulse 1.5s ease-in-out infinite', animationDelay: `${i * 0.1}s` }} />
+        <div
+          key={i}
+          className="h-14 rounded-lg animate-pulse"
+          style={{ backgroundColor: 'var(--color-bg-elevated)' }}
+        />
       ))}
     </div>
   );
@@ -42,8 +51,8 @@ function TransactionsSkeleton() {
 
 function ErrorState({ message, onRetry }: { message: string; onRetry: () => void }) {
   return (
-    <div role="alert" style={{ textAlign: 'center', padding: 'var(--spacing-8)' }}>
-      <p style={{ color: 'var(--color-error)', fontSize: 'var(--font-size-md)', marginBottom: 'var(--spacing-4)' }}>{message}</p>
+    <div role="alert" className="text-center py-8">
+      <p className="text-base mb-4" style={{ color: 'var(--color-error)' }}>{message}</p>
       <BrandButton variant="ghost" size="sm" onClick={onRetry}>Try again</BrandButton>
     </div>
   );
@@ -51,10 +60,10 @@ function ErrorState({ message, onRetry }: { message: string; onRetry: () => void
 
 function EmptyState() {
   return (
-    <div style={{ textAlign: 'center', padding: 'var(--spacing-10)' }}>
-      <p style={{ fontSize: 'var(--font-size-3xl)', marginBottom: 'var(--spacing-4)' }}>💳</p>
-      <p style={{ color: 'var(--color-text-secondary)', fontSize: 'var(--font-size-lg)', marginBottom: 'var(--spacing-2)' }}>No transactions yet</p>
-      <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-sm)' }}>Make your first deposit to get started</p>
+    <div className="text-center py-10">
+      <p className="text-3xl mb-4">💳</p>
+      <p className="text-lg mb-2" style={{ color: 'var(--color-text-secondary)' }}>No transactions yet</p>
+      <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>Make your first deposit to get started</p>
     </div>
   );
 }
@@ -89,39 +98,29 @@ export default function BillingPage() {
     depositMutation.mutate(Number(data.amount));
   };
 
-  // font-size-3xl = 1.875rem * 1.25 line-height = ~2.34rem for amount
-  // font-size-sm = 0.875rem * 1.5 line-height = ~1.31rem for subtitle
-  // spacing-1 = 0.25rem margin between them
-  // total ~ 3.9rem - use 4rem to be safe
-  const BALANCE_CONTENT_HEIGHT = '4rem';
-  const TRANSACTIONS_CONTENT_HEIGHT = '12rem';
-
   return (
-    <main style={{ minHeight: '100vh', backgroundColor: 'var(--color-bg-base)', padding: 'var(--spacing-8)' }}>
-      <style>{`
-        @keyframes skeleton-pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.4; }
-        }
-      `}</style>
+    <main className="min-h-screen p-8" style={{ backgroundColor: 'var(--color-bg-base)' }}>
+      <div className="max-w-2xl mx-auto">
 
-      <div style={{ maxWidth: '640px', margin: '0 auto' }}>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-4)', marginBottom: 'var(--spacing-8)' }}>
-          <Link href="/" style={{ color: 'var(--color-text-muted)', textDecoration: 'none', fontSize: 'var(--font-size-sm)' }}>&larr; Home</Link>
-          <h1 style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-text-primary)' }}>Billing</h1>
+        <div className="flex items-center gap-4 mb-8">
+          <Link href="/" className="text-sm no-underline" style={{ color: 'var(--color-text-muted)' }}>
+            &larr; Home
+          </Link>
+          <h1 className="text-2xl font-bold" style={{ color: 'var(--color-text-primary)' }}>
+            Billing
+          </h1>
         </div>
 
         <BrandCard variant="elevated" header="Your Balance" style={{ marginBottom: 'var(--spacing-6)' }}>
-          <div style={{ minHeight: BALANCE_CONTENT_HEIGHT }}>
+          <div className="min-h-16">
             {balanceQuery.isLoading && <BalanceSkeleton />}
             {balanceQuery.isError && <ErrorState message="Failed to load balance" onRetry={() => balanceQuery.refetch()} />}
             {balanceQuery.data && (
               <div>
-                <p style={{ fontSize: 'var(--font-size-3xl)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-text-primary)', lineHeight: 'var(--line-height-tight)' }}>
+                <p className="text-3xl font-bold" style={{ color: 'var(--color-text-primary)', lineHeight: 'var(--line-height-tight)' }}>
                   ${balanceQuery.data.amount.toLocaleString()}
                 </p>
-                <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-sm)', marginTop: 'var(--spacing-1)', lineHeight: 'var(--line-height-normal)' }}>
+                <p className="text-sm mt-1" style={{ color: 'var(--color-text-muted)', lineHeight: 'var(--line-height-normal)' }}>
                   {balanceQuery.data.currency} - updated {new Date(balanceQuery.data.lastUpdated).toLocaleTimeString()}
                 </p>
               </div>
@@ -131,19 +130,31 @@ export default function BillingPage() {
 
         <BrandCard header="Deposit Funds" style={{ marginBottom: 'var(--spacing-6)' }}>
           {depositMutation.isSuccess && (
-            <div role="status" style={{ backgroundColor: 'rgba(44,182,125,0.1)', border: '1px solid var(--color-success)', borderRadius: 'var(--radius-md)', padding: 'var(--spacing-3) var(--spacing-4)', marginBottom: 'var(--spacing-4)', color: 'var(--color-success)', fontSize: 'var(--font-size-sm)' }}>
+            <div
+              role="status"
+              className="rounded-lg px-4 py-3 mb-4 text-sm border"
+              style={{ backgroundColor: 'rgba(44,182,125,0.1)', borderColor: 'var(--color-success)', color: 'var(--color-success)' }}
+            >
               Deposit successful!
             </div>
           )}
           {depositMutation.isError && (
-            <div role="alert" style={{ backgroundColor: 'rgba(255,77,77,0.1)', border: '1px solid var(--color-error)', borderRadius: 'var(--radius-md)', padding: 'var(--spacing-3) var(--spacing-4)', marginBottom: 'var(--spacing-4)', color: 'var(--color-error)', fontSize: 'var(--font-size-sm)' }}>
+            <div
+              role="alert"
+              className="rounded-lg px-4 py-3 mb-4 text-sm border"
+              style={{ backgroundColor: 'rgba(255,77,77,0.1)', borderColor: 'var(--color-error)', color: 'var(--color-error)' }}
+            >
               {depositMutation.error instanceof Error ? depositMutation.error.message : 'Deposit failed'}
             </div>
           )}
           <form onSubmit={handleSubmit(onDeposit)} noValidate>
-            <div style={{ display: 'flex', gap: 'var(--spacing-3)', alignItems: 'flex-start' }}>
-              <div style={{ flex: 1 }}>
-                <label htmlFor="amount" style={{ display: 'block', fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', marginBottom: 'var(--spacing-2)' }}>
+            <div className="flex gap-3 items-start">
+              <div className="flex-1">
+                <label
+                  htmlFor="amount"
+                  className="block text-sm mb-2"
+                  style={{ color: 'var(--color-text-secondary)' }}
+                >
                   Amount ({currency})
                 </label>
                 <input
@@ -151,23 +162,18 @@ export default function BillingPage() {
                   type="number"
                   placeholder="0.00"
                   {...register('amount')}
+                  className="w-full px-4 py-3 rounded-lg text-base outline-none box-border"
                   style={{
-                    width: '100%',
-                    padding: 'var(--spacing-3) var(--spacing-4)',
                     backgroundColor: 'var(--color-bg-input)',
                     border: `1px solid ${errors.amount ? 'var(--color-border-error)' : 'var(--color-border-default)'}`,
-                    borderRadius: 'var(--radius-md)',
                     color: 'var(--color-text-primary)',
-                    fontSize: 'var(--font-size-md)',
-                    outline: 'none',
-                    boxSizing: 'border-box',
                   }}
                 />
-                <p role="alert" style={{ color: 'var(--color-error)', fontSize: 'var(--font-size-xs)', marginTop: 'var(--spacing-1)', minHeight: '1rem' }}>
+                <p role="alert" className="text-xs mt-1 min-h-4" style={{ color: 'var(--color-error)' }}>
                   {errors.amount?.message ?? ''}
                 </p>
               </div>
-              <div style={{ paddingTop: 'var(--spacing-8)' }}>
+              <div className="pt-8">
                 <BrandButton type="submit" isLoading={depositMutation.isPending}>Deposit</BrandButton>
               </div>
             </div>
@@ -175,23 +181,40 @@ export default function BillingPage() {
         </BrandCard>
 
         <BrandCard header="Transaction History">
-          <div style={{ minHeight: TRANSACTIONS_CONTENT_HEIGHT }}>
+          <div className="min-h-48">
             {transactionsQuery.isLoading && <TransactionsSkeleton />}
             {transactionsQuery.isError && <ErrorState message="Failed to load transactions" onRetry={() => transactionsQuery.refetch()} />}
             {transactionsQuery.data && transactionsQuery.data.length === 0 && <EmptyState />}
             {transactionsQuery.data && transactionsQuery.data.length > 0 && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-2)' }}>
+              <div className="flex flex-col gap-2">
                 {transactionsQuery.data.map((tx) => (
-                  <div key={tx.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: 'var(--spacing-3) var(--spacing-4)', backgroundColor: 'var(--color-bg-elevated)', borderRadius: 'var(--radius-md)' }}>
+                  <div
+                    key={tx.id}
+                    className="flex justify-between items-center px-4 py-3 rounded-lg"
+                    style={{ backgroundColor: 'var(--color-bg-elevated)' }}
+                  >
                     <div>
-                      <p style={{ color: 'var(--color-text-primary)', fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-medium)', textTransform: 'capitalize' }}>{tx.type}</p>
-                      <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-xs)' }}>{new Date(tx.createdAt).toLocaleDateString()}</p>
+                      <p
+                        className="text-sm font-medium capitalize"
+                        style={{ color: 'var(--color-text-primary)' }}
+                      >
+                        {tx.type}
+                      </p>
+                      <p className="text-xs" style={{ color: 'var(--color-text-muted)' }}>
+                        {new Date(tx.createdAt).toLocaleDateString()}
+                      </p>
                     </div>
-                    <div style={{ textAlign: 'right' }}>
-                      <p style={{ color: tx.type === 'withdrawal' ? 'var(--color-error)' : 'var(--color-success)', fontWeight: 'var(--font-weight-semibold)', fontSize: 'var(--font-size-sm)' }}>
+                    <div className="text-right">
+                      <p
+                        className="text-sm font-semibold"
+                        style={{ color: tx.type === 'withdrawal' ? 'var(--color-error)' : 'var(--color-success)' }}
+                      >
                         {tx.type === 'withdrawal' ? '-' : '+'}${tx.amount}
                       </p>
-                      <p style={{ fontSize: 'var(--font-size-xs)', color: tx.status === 'pending' ? 'var(--color-warning)' : 'var(--color-text-muted)', textTransform: 'capitalize' }}>
+                      <p
+                        className="text-xs capitalize"
+                        style={{ color: tx.status === 'pending' ? 'var(--color-warning)' : 'var(--color-text-muted)' }}
+                      >
                         {tx.status}
                       </p>
                     </div>

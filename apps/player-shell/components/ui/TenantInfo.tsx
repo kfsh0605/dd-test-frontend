@@ -12,29 +12,23 @@ export function TenantInfo() {
   ];
 
   return (
-    <div style={{
-      backgroundColor: 'var(--color-bg-surface)',
-      border: '1px solid var(--color-border-default)',
-      borderRadius: 'var(--radius-lg)',
-      padding: 'var(--spacing-6)',
-    }}>
-      <h2 style={{
-        fontSize: 'var(--font-size-sm)',
-        fontWeight: 'var(--font-weight-semibold)',
-        color: 'var(--color-text-muted)',
-        textTransform: 'uppercase',
-        letterSpacing: '0.08em',
-        marginBottom: 'var(--spacing-4)',
-      }}>
+    <div
+      className="rounded-xl p-6 border"
+      style={{ backgroundColor: 'var(--color-bg-surface)', borderColor: 'var(--color-border-default)' }}
+    >
+      <h2
+        className="text-xs font-semibold uppercase tracking-widest mb-4"
+        style={{ color: 'var(--color-text-muted)' }}
+      >
         Tenant Config
       </h2>
-      <div style={{ display: 'flex', gap: 'var(--spacing-8)' }}>
+      <div className="flex gap-8">
         {items.map(({ label, value }) => (
           <div key={label}>
-            <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--spacing-1)' }}>
+            <p className="text-xs mb-1" style={{ color: 'var(--color-text-muted)' }}>
               {label}
             </p>
-            <p style={{ fontSize: 'var(--font-size-lg)', fontWeight: 'var(--font-weight-semibold)', color: 'var(--color-text-primary)' }}>
+            <p className="text-lg font-semibold" style={{ color: 'var(--color-text-primary)' }}>
               {value.toUpperCase()}
             </p>
           </div>
