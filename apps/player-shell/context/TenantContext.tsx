@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 export type Locale = 'en' | 'uk' | 'ru';
 export type Currency = 'USD' | 'EUR' | 'BTC' | 'ETH';
